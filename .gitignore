@@ -1,0 +1,23 @@
+# data: never commit (IEEE-CIS competition rules forbid redistribution)
+/data/*
+!/data/.gitkeep
+/mlruns/
+/mlflow.db
+/models/
+
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+.DS_Store
+
+# terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.env

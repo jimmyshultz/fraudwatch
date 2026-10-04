@@ -1,0 +1,19 @@
+# Data ingest + time-based split configuration. See PLAN.md §5.1.
+raw_dir: data/raw
+processed_dir: data/processed
+
+# event_day = (TransactionDT - dt_origin_seconds) / 86400  ->  real data spans ~day 0 to ~182
+dt_origin_seconds: 86400
+
+# Half-open [start_day, end_day). Contiguous, in this exact order. Never random.
+splits:
+  train:      {start_day: 0,   end_day: 95}
+  gap:        {start_day: 95,  end_day: 102}   # dropped: mimics label delay at training time
+  validation: {start_day: 102, end_day: 132}   # early stopping, calibration, threshold, drift reference
+  test:       {start_day: 132, end_day: 153}   # final holdout, touched once per model version
+  stream:     {start_day: 153, end_day: null}  # never used in modeling; replayed through the API
+
+drop_splits: [gap]
+
+# Sanity bounds on the fraud rate of every written split.
+expected_fraud_rate: [0.02, 0.06]
