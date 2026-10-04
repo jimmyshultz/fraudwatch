@@ -8,7 +8,8 @@ re-litigate a decision that has an ADR without flagging it to the user first.
 - `make install` — `uv sync --all-extras`
 - `make test` — fast tests (excludes `slow`, `realdata`)
 - `make lint` — ruff check + format check + mypy
-- `make data` — download (needs Kaggle token) + validate + split real data
+- `make data` — download (needs `uv run kaggle auth login`) + validate + split real data
+- `make eda` — execute notebooks/01_eda.ipynb (writes reports/figures/eda, reports/eda_summary.json)
 - `uv run fraudwatch --help` — CLI
 
 ## Pinned stack (check before using an API from memory)

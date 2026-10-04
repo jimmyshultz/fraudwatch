@@ -1,0 +1,280 @@
+{
+  "splits": {
+    "train": {
+      "rows": 337352,
+      "fraud_rate": 0.0338
+    },
+    "validation": {
+      "rows": 91365,
+      "fraud_rate": 0.0405
+    },
+    "test": {
+      "rows": 57468,
+      "fraud_rate": 0.034
+    },
+    "stream": {
+      "rows": 82325,
+      "fraud_rate": 0.0348
+    }
+  },
+  "weekly_fraud_rate": {
+    "min": 0.0207,
+    "max": 0.0507,
+    "std": 0.0072,
+    "n_full_weeks": 24
+  },
+  "daily_volume": {
+    "min": 2048,
+    "median": 3038,
+    "max": 6852
+  },
+  "product_fraud_rate": {
+    "C": 0.1173,
+    "S": 0.058,
+    "H": 0.0463,
+    "R": 0.0378,
+    "W": 0.0204
+  },
+  "product_share_by_split": {
+    "train": {
+      "C": 0.1165,
+      "S": 0.018,
+      "H": 0.0777,
+      "R": 0.0819,
+      "W": 0.7058
+    },
+    "validation": {
+      "C": 0.1352,
+      "S": 0.0149,
+      "H": 0.0257,
+      "R": 0.0333,
+      "W": 0.7909
+    },
+    "test": {
+      "C": 0.0987,
+      "S": 0.018,
+      "H": 0.026,
+      "R": 0.0411,
+      "W": 0.8162
+    },
+    "stream": {
+      "C": 0.1078,
+      "S": 0.0345,
+      "H": 0.0293,
+      "R": 0.0483,
+      "W": 0.78
+    }
+  },
+  "amount_under_1": {
+    "share_of_rows": 0.00026,
+    "share_of_fraud": 0.0011
+  },
+  "amount_median": {
+    "legit": 68.5,
+    "fraud": 75.0
+  },
+  "fraud_rate_by_has_cents": {
+    "whole_amount": 0.0357,
+    "has_cents": 0.0343
+  },
+  "missing_rate_by_group": {
+    "train": {
+      "core (amount, product, card)": 0.0041,
+      "address/distance": 0.4412,
+      "email": 0.4475,
+      "C (counts)": 0.0,
+      "D (timedeltas)": 0.6012,
+      "M (match flags)": 0.5994,
+      "V (Vesta features)": 0.4259,
+      "identity (id_*, device)": 0.8201
+    },
+    "validation": {
+      "core (amount, product, card)": 0.0016,
+      "address/distance": 0.4454,
+      "email": 0.467,
+      "C (counts)": 0.0,
+      "D (timedeltas)": 0.5532,
+      "M (match flags)": 0.3603,
+      "V (Vesta features)": 0.4362,
+      "identity (id_*, device)": 0.8787
+    },
+    "test": {
+      "core (amount, product, card)": 0.0016,
+      "address/distance": 0.424,
+      "email": 0.4946,
+      "C (counts)": 0.0,
+      "D (timedeltas)": 0.5623,
+      "M (match flags)": 0.3706,
+      "V (Vesta features)": 0.444,
+      "identity (id_*, device)": 0.8889
+    },
+    "stream": {
+      "core (amount, product, card)": 0.0072,
+      "address/distance": 0.4294,
+      "email": 0.4829,
+      "C (counts)": 0.0,
+      "D (timedeltas)": 0.5461,
+      "M (match flags)": 0.3658,
+      "V (Vesta features)": 0.4279,
+      "identity (id_*, device)": 0.864
+    }
+  },
+  "missing_shift_block": {
+    "train": {
+      "M7": 0.728,
+      "V1": 0.601,
+      "D11": 0.601
+    },
+    "validation": {
+      "M7": 0.382,
+      "V1": 0.321,
+      "D11": 0.321
+    },
+    "test": {
+      "M7": 0.423,
+      "V1": 0.3,
+      "D11": 0.3
+    },
+    "stream": {
+      "M7": 0.389,
+      "V1": 0.287,
+      "D11": 0.287
+    }
+  },
+  "v_missingness_pattern_groups": 14,
+  "identity_coverage_train": 0.2802,
+  "fraud_rate_by_identity_train": {
+    "no identity row": 0.0211,
+    "has identity row": 0.0665
+  },
+  "d_column_psi_train_to_stream": {
+    "raw": {
+      "D1": 0.025,
+      "D2": 0.043,
+      "D3": 0.044,
+      "D4": 0.052,
+      "D5": 0.03,
+      "D6": 0.018,
+      "D7": 0.01,
+      "D8": 0.018,
+      "D9": 0.014,
+      "D10": 0.095,
+      "D11": 0.451,
+      "D12": 0.005,
+      "D13": 0.015,
+      "D14": 0.01,
+      "D15": 0.108
+    },
+    "normalized": {
+      "D1": 2.066,
+      "D2": 0.625,
+      "D3": 2.412,
+      "D4": 1.113,
+      "D5": 1.762,
+      "D6": 0.392,
+      "D7": 0.294,
+      "D8": 0.262,
+      "D9": 0.862,
+      "D10": 1.475,
+      "D11": 1.157,
+      "D12": 0.388,
+      "D13": 0.54,
+      "D14": 0.377,
+      "D15": 1.146
+    }
+  },
+  "natural_drift_column_counts": {
+    "PSI \u2265 0.10": {
+      "validation": 76,
+      "test": 39,
+      "stream": 36
+    },
+    "PSI \u2265 0.25": {
+      "validation": 20,
+      "test": 20,
+      "stream": 20
+    },
+    "of columns": {
+      "validation": 430,
+      "test": 430,
+      "stream": 430
+    }
+  },
+  "natural_drift_interpretable": {
+    "validation": {
+      "TransactionAmt": 0.012,
+      "ProductCD": 0.114,
+      "card4": 0.018,
+      "card6": 0.024,
+      "addr1": 0.006,
+      "dist1": 0.018,
+      "P_emaildomain": 0.008,
+      "R_emaildomain": 0.038,
+      "DeviceType": 0.036,
+      "DeviceInfo": 0.083,
+      "C1": 0.007,
+      "C13": 0.022,
+      "M4": 0.016
+    },
+    "test": {
+      "TransactionAmt": 0.012,
+      "ProductCD": 0.104,
+      "card4": 0.014,
+      "card6": 0.026,
+      "addr1": 0.003,
+      "dist1": 0.028,
+      "P_emaildomain": 0.006,
+      "R_emaildomain": 0.053,
+      "DeviceType": 0.061,
+      "DeviceInfo": 0.089,
+      "C1": 0.012,
+      "C13": 0.04,
+      "M4": 0.009
+    },
+    "stream": {
+      "TransactionAmt": 0.007,
+      "ProductCD": 0.084,
+      "card4": 0.015,
+      "card6": 0.015,
+      "addr1": 0.004,
+      "dist1": 0.022,
+      "P_emaildomain": 0.007,
+      "R_emaildomain": 0.027,
+      "DeviceType": 0.025,
+      "DeviceInfo": 0.052,
+      "C1": 0.015,
+      "C13": 0.028,
+      "M4": 0.008
+    }
+  },
+  "fraud_rate_by_card4": {
+    "discover": 0.0772,
+    "visa": 0.0348,
+    "mastercard": 0.0344,
+    "american express": 0.0286
+  },
+  "fraud_rate_by_card6": {
+    "credit": 0.0667,
+    "debit": 0.0243
+  },
+  "fraud_rate_by_P_emaildomain": {
+    "outlook.com": 0.0957,
+    "hotmail.com": 0.0533,
+    "gmail.com": 0.0441,
+    "icloud.com": 0.0318,
+    "comcast.net": 0.0308,
+    "(missing)": 0.0284,
+    "live.com": 0.0284,
+    "anonymous.com": 0.0236
+  },
+  "fraud_rate_by_DeviceType": {
+    "mobile": 0.1006,
+    "desktop": 0.065,
+    "(missing)": 0.021
+  },
+  "hourly_fraud_rate": {
+    "min": 0.0232,
+    "max": 0.1046,
+    "argmax_hour": 7
+  }
+}

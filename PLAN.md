@@ -217,9 +217,10 @@ Sorted by `TransactionDT` (in days from start, ~183 days total). Exact boundarie
 ### 5.3 Improvements (Phase 3), each as a tracked MLflow experiment with ablation
 1. **Feature engineering (all request-computable or static lookups):**
    - `log1p(TransactionAmt)`, cents component (`amt % 1`), hour-of-day and day-of-week from `TransactionDT`.
-   - **D-column normalization**: `Dn_norm = day − Dn`. Raw D columns are time-deltas that drift upward over time by construction; normalized versions are stable. *This is a real drift lesson for the blog.*
+   - **D columns: keep raw** *(revised after EDA, see `docs/eda.md`)*. The original hypothesis, that raw D columns drift and `day − Dn` is stable, was wrong: raw D columns are mostly stable (PSI < 0.1 train → stream), while `day − Dn` is effectively a date and drifts by construction (PSI 0.26–2.4). Normalized D is used only inside entity keys (stretch velocity features), never as a feature.
    - Email domain → provider group + TLD; `P_emaildomain == R_emaildomain` flag.
-   - `DeviceInfo` → device family; identity-missing indicator (~75% of transactions have no identity row).
+   - `DeviceInfo` → device family, `id_31` → browser family (versions drift with every browser release); identity-missing indicator (~72% of transactions have no identity row).
+   - **Missingness-shift block** *(from EDA)*: M7–M9, V1–V11 and D11 are ~60–73% missing in train but ~29–42% in every later split. Compare (a) refitting the final model on train + validation after model selection vs (b) dropping or flagging the block; pick by validation-to-test behavior.
    - Frequency encodings for `card1`, `card2`, `addr1`, email domains — **fit on train only**, shipped in the bundle; unseen values → 0.
 2. **Feature selection to an input contract of ~50 raw fields.** The ~339 `V` columns are heavily redundant (grouped by NaN pattern); keep one representative per correlated group via correlation clustering (|ρ| > 0.9), then prune by LightGBM gain. Acceptance: contract model is within 0.01 PR-AUC of the all-features model. This keeps the API payload sane and the monitoring surface tractable.
 3. **Hyperparameter tuning**: Optuna, 50 trials on CV folds; search `num_leaves, min_child_samples, feature_fraction, bagging_fraction, lambda_l1/l2, learning_rate, scale_pos_weight`.
@@ -730,7 +731,7 @@ Coding time is no longer the bottleneck, so phases aren't estimated in developer
 2. **Setup**: dataset choice and why not the famous credit-card dataset (2 days of PCA features can't teach drift).
 3. **Modeling decisions**: time-based splits with a label-delay gap; why PR-AUC, not ROC-AUC; cost-based threshold; calibration. Include the results table.
 4. **Failure #1 (likely)**: random-split vs time-split gap — quantify how much a random split overstates performance.
-5. **Failure #2 (likely)**: raw D-columns — natural drift baked into the features, and the normalization fix.
+5. **Failure #2 (actual)**: the D-column normalization I planned turned out backwards: raw D columns were stable and the "fix" created drift. Plus the missingness-shift block that the drift monitor can't see because its reference is validation.
 6. **Serving**: decoupling from MLflow, training/serving parity test and the bug it caught (there will be one).
 7. **Monitoring**: PSI vs p-values at n=3,000 (show false-alarm rates); the no-drift calibration experiment.
 8. **The concept-drift punchline**: fraudster adaptation is invisible to feature drift monitors; only labels catch it, and labels are late. What that means for monitoring strategy.

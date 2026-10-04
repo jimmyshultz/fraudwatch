@@ -1,4 +1,4 @@
-.PHONY: install test test-all lint fmt data data-download data-build
+.PHONY: install test test-all lint fmt data data-download data-build eda
 
 install:
 	uv sync --all-extras
@@ -25,3 +25,6 @@ data-download:
 
 data-build:
 	uv run fraudwatch data build
+
+eda:
+	uv run --group eda jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=900 notebooks/01_eda.ipynb
