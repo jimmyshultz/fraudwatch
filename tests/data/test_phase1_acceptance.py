@@ -73,7 +73,9 @@ def test_config_rejects_overlapping_splits() -> None:
 # --- Ingest / join --------------------------------------------------------------------------------
 
 
-def test_identity_is_left_joined_without_losing_or_duplicating_rows(synthetic_raw_dir: Path) -> None:
+def test_identity_is_left_joined_without_losing_or_duplicating_rows(
+    synthetic_raw_dir: Path,
+) -> None:
     df = load_raw(synthetic_raw_dir)
     identity = pd.read_csv(synthetic_raw_dir / c.IDENTITY_FILE)
     assert len(df) == SYNTHETIC_ROWS
@@ -113,7 +115,9 @@ def test_valid_raw_data_passes(raw_sample: pd.DataFrame) -> None:
         ("DeviceType", "tablet"),
     ],
 )
-def test_invalid_values_are_rejected(raw_sample: pd.DataFrame, column: str, bad_value: object) -> None:
+def test_invalid_values_are_rejected(
+    raw_sample: pd.DataFrame, column: str, bad_value: object
+) -> None:
     # Inject into the column's existing dtype so only the value check can fail, not the dtype check.
     bad = raw_sample.copy()
     bad.loc[bad.index[0], column] = bad_value
@@ -223,9 +227,7 @@ def test_manifest_stats_match_written_files(built: tuple[DataConfig, Manifest]) 
         assert info.max_day == pytest.approx(df[c.EVENT_DAY_COL].max())
 
 
-def test_rebuild_is_deterministic(
-    built: tuple[DataConfig, Manifest], tmp_path: Path
-) -> None:
+def test_rebuild_is_deterministic(built: tuple[DataConfig, Manifest], tmp_path: Path) -> None:
     cfg, first = built
     second = build_dataset(cfg.model_copy(update={"processed_dir": tmp_path}))
     assert second == first
@@ -244,7 +246,7 @@ def test_build_refuses_invalid_raw_data(synthetic_raw_dir: Path, tmp_path: Path)
     assert not (tmp_path / "out" / "manifest.json").exists()
 
 
-# --- Real data (local only; skipped when data/raw is absent, never runs in CI) ----------------------
+# --- Real data (local only; skipped when data/raw is absent; never runs in CI) ---
 
 
 @pytest.mark.realdata
