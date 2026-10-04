@@ -37,7 +37,9 @@ def load_raw(raw_dir: Path, dt_origin_seconds: int = SECONDS_PER_DAY) -> pd.Data
     identity = pd.read_csv(raw_dir / c.IDENTITY_FILE, low_memory=False)
     df = transactions.merge(identity, on=c.ID_COL, how="left", validate="one_to_one")
     event_day = ((df[c.TIME_COL] - dt_origin_seconds) / SECONDS_PER_DAY).rename(c.EVENT_DAY_COL)
-    df = pd.concat([df, event_day], axis=1)  # concat, not insert: the 434-column frame is fragmented
+    df = pd.concat(
+        [df, event_day], axis=1
+    )  # concat, not insert: the 434-column frame is fragmented
     return df.sort_values([c.TIME_COL, c.ID_COL], kind="stable").reset_index(drop=True)
 
 

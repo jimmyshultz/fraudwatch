@@ -32,14 +32,20 @@ def _with_nans(rng: np.random.Generator, values: np.ndarray, nan_rate: float) ->
 
 
 def _cat_with_nans(
-    rng: np.random.Generator, choices: list[str], n: int, nan_rate: float, p: np.ndarray | None = None
+    rng: np.random.Generator,
+    choices: list[str],
+    n: int,
+    nan_rate: float,
+    p: np.ndarray | None = None,
 ) -> np.ndarray:
     out = rng.choice(np.array(choices, dtype=object), size=n, p=p)
     out[rng.random(n) < nan_rate] = None
     return out
 
 
-def generate_raw(n_rows: int = 20_000, seed: int = 0, fraud_rate: float = 0.035) -> tuple[pd.DataFrame, pd.DataFrame]:
+def generate_raw(
+    n_rows: int = 20_000, seed: int = 0, fraud_rate: float = 0.035
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Return (transactions, identity) DataFrames with the raw Kaggle column layout."""
     rng = np.random.default_rng(seed)
     n = n_rows
@@ -68,7 +74,9 @@ def generate_raw(n_rows: int = 20_000, seed: int = 0, fraud_rate: float = 0.035)
     tx["card1"] = rng.integers(1000, 18_397, n)
     tx["card2"] = _with_nans(rng, rng.integers(100, 601, n), 0.015)
     tx["card3"] = _with_nans(rng, rng.choice([150, 185, 106, 144], n), 0.003)
-    tx["card4"] = _cat_with_nans(rng, c.CARD4_VALUES, n, 0.003, p=np.array([0.65, 0.32, 0.015, 0.015]))
+    tx["card4"] = _cat_with_nans(
+        rng, c.CARD4_VALUES, n, 0.003, p=np.array([0.65, 0.32, 0.015, 0.015])
+    )
     card6_legit = rng.choice(c.CARD6_VALUES, n, p=np.array([0.77, 0.229, 0.0005, 0.0005]))
     card6_fraud = rng.choice(c.CARD6_VALUES, n, p=np.array([0.50, 0.499, 0.0005, 0.0005]))
     card6 = np.where(fraud, card6_fraud, card6_legit).astype(object)
@@ -103,7 +111,9 @@ def generate_raw(n_rows: int = 20_000, seed: int = 0, fraud_rate: float = 0.035)
     for col in c.NUMERIC_ID_COLS:
         ident[col] = _with_nans(rng, rng.normal(0, 50, m).round(), float(rng.uniform(0.0, 0.9)))
     for col in c.CATEGORICAL_ID_COLS:
-        ident[col] = _cat_with_nans(rng, ["Found", "NotFound", "New"], m, float(rng.uniform(0.0, 0.9)))
+        ident[col] = _cat_with_nans(
+            rng, ["Found", "NotFound", "New"], m, float(rng.uniform(0.0, 0.9))
+        )
     ident["DeviceType"] = _cat_with_nans(rng, c.DEVICE_TYPES, m, 0.02)
     ident["DeviceInfo"] = _cat_with_nans(rng, DEVICE_INFOS, m, 0.18)
     identity = pd.DataFrame(ident, columns=c.IDENTITY_COLS)

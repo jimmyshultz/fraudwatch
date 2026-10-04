@@ -10,7 +10,7 @@ from fraudwatch.data import columns as c
 
 
 class DataValidationError(ValueError):
-    """Raised when data fails schema validation. Wraps pandera errors so callers don't depend on pandera."""
+    """Schema validation failure. Wraps pandera errors so callers needn't depend on pandera."""
 
 
 def _is_numeric(series: pd.Series) -> bool:
@@ -57,7 +57,7 @@ RAW_SCHEMA = _build_schema()
 
 
 def validate_raw(df: pd.DataFrame) -> pd.DataFrame:
-    """Validate the joined transaction+identity frame; return it unchanged or raise DataValidationError."""
+    """Validate the joined transaction+identity frame; raise DataValidationError on failure."""
     try:
         return RAW_SCHEMA.validate(df, lazy=True)
     except SchemaErrors as exc:

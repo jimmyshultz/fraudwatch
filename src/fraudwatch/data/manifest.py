@@ -1,4 +1,4 @@
-"""Data manifest: what was built, from which inputs, with which config. Written next to the splits."""
+"""Data manifest: what was built, from which inputs, with which config."""
 
 from __future__ import annotations
 

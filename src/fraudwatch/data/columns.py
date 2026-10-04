@@ -42,7 +42,8 @@ IDENTITY_COLS: list[str] = [ID_COL, *ID_FEATURE_COLS, "DeviceType", "DeviceInfo"
 
 # id_* columns that are numeric in the Kaggle data; the rest are categorical strings.
 NUMERIC_ID_COLS = [
-    f"id_{i:02d}" for i in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 17, 18, 19, 20, 21, 22, 24, 25, 26, 32)
+    f"id_{i:02d}"
+    for i in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 17, 18, 19, 20, 21, 22, 24, 25, 26, 32)
 ]
 CATEGORICAL_ID_COLS = [c for c in ID_FEATURE_COLS if c not in NUMERIC_ID_COLS]
 
